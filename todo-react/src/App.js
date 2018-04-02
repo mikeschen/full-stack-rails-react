@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import update from 'immutability-helper'
+
 import './App.css';
 import List from './List';
 
@@ -7,9 +9,11 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      term: '',
-      lists: []
+      lists: [],
+      term: ''
     }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -20,20 +24,12 @@ class App extends Component {
       })
   }
 
-  // componentWillUpdate() {
-  //   console.log("staet", this.state.term);
-  //   axios.get('http://localhost:3000/todos', {crossdomain: true}) 
-  //   .then(response => {
-  //     console.log(response)
-  //     this.setState({lists: response.data})
-  //   })
-  // }
-
-  onChange = (event) => {
+  handleChange(event) {
     this.setState({ term: event.target.value })
   }
 
-  onSubmit = (event) => {
+  handleSubmit(event) {
+    console.log("event", event)
     event.preventDefault();
     this.setState({
       term: '',
@@ -47,16 +43,29 @@ class App extends Component {
   )
   .then(response => {
     console.log(response)
+    const lists = update(this.state.lists, {
+        $push: [response.data]
+      })
+      this.setState({lists: lists})
   })
   .catch(error => console.log(error))
   }
 
+  // componentWillUpdate() {
+  //   console.log("staet", this.state.term);
+  //   axios.get('http://localhost:3000/todos', {crossdomain: true}) 
+  //   .then(response => {
+  //     console.log(response)
+  //     this.setState({lists: response.data})
+  //   })
+  // }
+
   render() {
     return (
       <div>
-        <form onSubmit={this.onSubmit}>
-          <input value = {this.state.term} onChange={this.onChange} />
-          <button>submit</button>
+        <form onSubmit={this.handleSubmit}>
+        <input value = {this.state.term} onChange={this.handleChange} />
+        <button>Submit</button>
         </form>
        {this.state.lists.map((list) => {
          return (<List list={list} key={list.id} />)
