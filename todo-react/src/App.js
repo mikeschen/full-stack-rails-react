@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import update from 'immutability-helper';
 import styled, {css} from 'styled-components';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as listActions from './actions/listActions';
-
 import './App.css';
-import List from './List';
 
 const Button = styled.button`
 border-radius: 3px;
@@ -43,40 +39,13 @@ class App extends Component {
   }
 
   handleSubmit(event) {
-    console.log("event", event)
     event.preventDefault();
     this.setState({
       term: '',
-      // items: [...this.state.items, this.state.term] 
     })
-    axios.post('http://localhost:3000/todos',
-    {
-      title: this.state.term,
-      created_by: 1
-    }
-  )
-  .then(response => {
-    console.log(response)
-    const lists = update(this.state.lists, {
-        $push: [response.data]
-      })
-      this.setState({lists: lists})
-  })
-  .catch(error => console.log(error))
+    this.props.listActions.postTodo(this.state.term)
   }
 
-  // componentWillUpdate() {
-  //   console.log("staet", this.state.term);
-  //   axios.get('http://localhost:3000/todos', {crossdomain: true}) 
-  //   .then(response => {
-  //     console.log(response)
-  //     this.setState({lists: response.data})
-  //   })
-  // }
-
-  // {this.state.lists.map((list) => {
-  //   return (<List list={list} key={list.id} />)
-  // })}
   renderData(item) {
     return <div className="tile" key={item.id}>{item.title}</div>;
   }
