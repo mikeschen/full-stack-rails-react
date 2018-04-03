@@ -1,9 +1,27 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import update from 'immutability-helper'
+import update from 'immutability-helper';
+import styled, {css} from 'styled-components';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as listActions from './actions/listActions';
 
 import './App.css';
 import List from './List';
+
+const Button = styled.button`
+border-radius: 3px;
+padding: 0.25em 1em;
+margin: 0 1em;
+background: transparent;
+color: palevioletred;
+border: 2px solid palevioletred;
+
+${props => props.primary && css`
+background: palevioletred;
+color: white;
+`}
+`;
 
 class App extends Component {
   constructor(props) {
@@ -17,11 +35,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3000/todos', {crossdomain: true}) 
-      .then(response => {
-        console.log(response)
-        this.setState({lists: response.data})
-      })
+    this.props.listActions.fetchList();
   }
 
   handleChange(event) {
@@ -60,19 +74,45 @@ class App extends Component {
   //   })
   // }
 
+  // {this.state.lists.map((list) => {
+  //   return (<List list={list} key={list.id} />)
+  // })}
+  renderData(item) {
+    return <div className="tile" key={item.id}>{item.title}</div>;
+  }
+
   render() {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
         <input value = {this.state.term} onChange={this.handleChange} />
-        <button>Submit</button>
+        <Button primary>Submit</Button>
         </form>
-       {this.state.lists.map((list) => {
-         return (<List list={list} key={list.id} />)
-       })}
+        {
+          this.props.list.map((item, index) => {
+            return(
+              this.renderData(item)
+          )
+        })
+      }
       </div>
     );
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    list: state.list
+};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    listActions: bindActionCreators(listActions, dispatch)
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
