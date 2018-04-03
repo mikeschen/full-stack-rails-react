@@ -31,6 +31,7 @@ class App extends Component {
   handleSubmit(event) {
     console.log("event", event)
     event.preventDefault();
+    console.log("eventz", event);
     this.setState({
       term: '',
       // items: [...this.state.items, this.state.term] 
@@ -50,15 +51,6 @@ class App extends Component {
   })
   .catch(error => console.log(error))
   }
-
-  // componentWillUpdate() {
-  //   console.log("staet", this.state.term);
-  //   axios.get('http://localhost:3000/todos', {crossdomain: true}) 
-  //   .then(response => {
-  //     console.log(response)
-  //     this.setState({lists: response.data})
-  //   })
-  // }
 
   render() {
     return (
