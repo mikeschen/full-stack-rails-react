@@ -1,8 +1,8 @@
 import * as allActions from './allActions';
 import axios from 'axios';
 
-export function receiveList(data) {
-    return {type: allActions.RECEIVE_LIST, list: data}
+export function receiveList(list) {
+    return {type: allActions.RECEIVE_LIST, list}
 }
 
 export function fetchList() {
@@ -34,8 +34,6 @@ export function postTodo(todo){
   };
 
   export function createTodoSuccess (todo) {
-    return {
-      type: 'CREATE_TODO_SUCCESS',
-      todo
-    }
+    return {type: allActions.CREATE_TODO_SUCCESS, todo}
   };
+

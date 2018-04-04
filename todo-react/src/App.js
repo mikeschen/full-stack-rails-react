@@ -47,7 +47,7 @@ class App extends Component {
   }
 
   renderData(item) {
-    return <div className="tile" key={item.id}>{item.title}</div>;
+    return <div className="item" key={item.id}>{item.title}</div>;
   }
 
   render() {
@@ -57,6 +57,7 @@ class App extends Component {
         <input value = {this.state.term} onChange={this.handleChange} />
         <Button primary>Submit</Button>
         </form>
+        <div className="container">
         {
           this.props.list.map((item, index) => {
             return(
@@ -64,6 +65,7 @@ class App extends Component {
           )
         })
       }
+      </div>
       </div>
     );
   }
