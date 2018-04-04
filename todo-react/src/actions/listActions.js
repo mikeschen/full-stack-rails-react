@@ -2,12 +2,13 @@ import * as allActions from './allActions';
 import axios from 'axios';
 
 export function receiveList(list) {
+    console.log("listz 🤝", list)
     return {type: allActions.RECEIVE_LIST, list}
 }
 
 export function fetchList() {
     return (dispatch) => {
-        axios.get('http://localhost:3000/todos', {crossdomain: true}) 
+        axios.get('http://localhost:3000/todos', {crossdomain: true})
         .then(response => {
           console.log("da data", response.data)
           dispatch(receiveList(response.data))
