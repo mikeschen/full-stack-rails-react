@@ -15,13 +15,7 @@ export default function list(state = initialState.list, action) {
               Object.assign({}, action.todo)
             ];
         case DELETE_TODO_SUCCESS:
-            newState = Object.assign([], state);
-            console.log("newstate", action);
-            const indexOfTodoToDelete = state.findIndex(todo => {
-            return todo.id == action.todoId
-            })
-            newState.splice(indexOfTodoToDelete, 1);
-            return newState;
+            return state.filter(({ id }) => id !== action.todoId);
         default:
             return state;
     }
