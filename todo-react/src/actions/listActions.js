@@ -38,3 +38,19 @@ export function postTodo(todo){
     return {type: allActions.CREATE_TODO_SUCCESS, todo}
   };
 
+  export function deleteTodo(todoId){
+    return (dispatch) => {
+      return axios.delete('http://localhost:3000/todos/' +todoId)
+        .then(response => {
+          dispatch(deleteTodoSuccess(todoId));
+        })
+        .catch(error => {
+          throw(error);
+        });
+    };
+  };
+
+  export function deleteTodoSuccess(todoId) {
+    return {type: allActions.DELETE_TODO_SUCCESS, todoId}
+  }
+

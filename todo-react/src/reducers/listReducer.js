@@ -1,5 +1,5 @@
 import initialState from './initialState';
-import {FETCH_LIST, RECEIVE_LIST, CREATE_TODO_SUCCESS} from '../actions/allActions';
+import {FETCH_LIST, RECEIVE_LIST, CREATE_TODO_SUCCESS, DELETE_TODO_SUCCESS} from '../actions/allActions';
 
 export default function list(state = initialState.list, action) {
     let newState;
@@ -14,6 +14,14 @@ export default function list(state = initialState.list, action) {
               ...state,
               Object.assign({}, action.todo)
             ];
+        case DELETE_TODO_SUCCESS:
+            newState = Object.assign([], state);
+            console.log("newstate", action);
+            const indexOfTodoToDelete = state.findIndex(todo => {
+            return todo.id == action.todoId
+            })
+            newState.splice(indexOfTodoToDelete, 1);
+            return newState;
         default:
             return state;
     }

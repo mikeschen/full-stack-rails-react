@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as listActions from './actions/listActions';
 import './App.css';
+import Item from './Item';
 
 const Button = styled.button`
 border-radius: 3px;
@@ -28,6 +29,7 @@ class App extends Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.clickDelete = this.clickDelete.bind(this);
   }
 
   componentDidMount() {
@@ -46,8 +48,10 @@ class App extends Component {
     this.props.listActions.postTodo(this.state.term)
   }
 
-  renderData(item) {
-    return <div className="item" key={item.id}>{item.title}</div>;
+  clickDelete(id) {
+    console.log("💻clicked", id)
+    this.props.listActions.deleteTodo(id);
+    // this.props.listActions.fetchList();
   }
 
   render() {
@@ -59,12 +63,9 @@ class App extends Component {
         </form>
         <div className="container">
         {
-          this.props.list.map((item, index) => {
-            return(
-              this.renderData(item)
-          )
-        })
-      }
+          this.props.list.map((item, index) =>
+            <Item key={item.id} item={item} clicked={this.clickDelete} />
+        )}
       </div>
       </div>
     );
