@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import styled, {css} from 'styled-components';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import * as listActions from './actions/listActions';
 import './App.css';
 import Item from './Item';
+
 
 const Button = styled.button`
 border-radius: 3px;
@@ -62,10 +64,12 @@ class App extends Component {
         <Button primary>Submit</Button>
         </form>
         <div className="container">
-        {
-          this.props.list.map((item, index) =>
-            <Item key={item.id} item={item} clicked={this.clickDelete} />
-        )}
+
+            {
+              this.props.list.map((item, index) =>
+                <Item key={item.id} item={item} clicked={this.clickDelete} />
+            )}
+
       </div>
       </div>
     );
