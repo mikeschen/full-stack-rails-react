@@ -53,7 +53,6 @@ class App extends Component {
   clickDelete(id) {
     console.log("💻clicked", id)
     this.props.listActions.deleteTodo(id);
-    // this.props.listActions.fetchList();
   }
 
   render() {
@@ -64,12 +63,10 @@ class App extends Component {
         <Button primary>Submit</Button>
         </form>
         <div className="container">
-
             {
               this.props.list.map((item, index) =>
                 <Item key={item.id} item={item} clicked={this.clickDelete} />
             )}
-
       </div>
       </div>
     );
